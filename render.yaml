@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: dermai-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd BACKEND && uvicorn main:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: FIREBASE_PROJECT_ID
+        value: ai-face-health-analyzer
+      - key: FIREBASE_CLIENT_EMAIL
+        value: firebase-adminsdk-fbsvc@ai-face-health-analyzer.iam.gserviceaccount.com
+      - key: FIREBASE_DATABASE_URL
+        value: https://ai-face-health-analyzer.firebaseio.com
+      - key: ENVIRONMENT
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.11
