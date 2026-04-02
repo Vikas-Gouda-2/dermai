@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
 echo "Starting DermAI API Server..."
-exec gunicorn BACKEND.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8000}
+cd BACKEND
+python -m uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
