@@ -1,0 +1,60 @@
+# Environment variables (NEVER commit these)
+.env
+.env.local
+.env.*.local
+.env.production.local
+BACKEND/.env
+FRONTEND/.env.local
+
+# Firebase credentials
+*.json
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+/tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs (optional - uncomment if you want to commit builds)
+# FRONTEND/dist/
