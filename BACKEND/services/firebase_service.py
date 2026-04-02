@@ -17,37 +17,62 @@ _auth = None
 _storage_bucket = None
 
 def init_firebase():
-    """Initialize Firebase app using credentials file or environment variables."""
+    """Initialize Firebase app using environment variables (production) or credentials file (development)."""
     global _db, _auth, _storage_bucket
     
     try:
         if not firebase_admin._apps:
-            # Try to load from credentials file first
-            creds_path = os.path.expanduser("~/Downloads/ai-face-health-analyzer-firebase-adminsdk-fbsvc-a961ac817c.json")
+            firebase_config = None
             
-            if os.path.exists(creds_path):
-                # Load from JSON file
-                creds = credentials.Certificate(creds_path)
-            else:
-                # Build credentials from environment variables
+            # For production (Render, etc): use environment variables
+            if os.getenv("ENVIRONMENT") == "production" or os.getenv("FIREBASE_PRIVATE_KEY"):
+                print("Loading Firebase credentials from environment variables (production)...")
                 private_key = os.getenv("FIREBASE_PRIVATE_KEY", "").replace("\\n", "\n")
                 firebase_config = {
                     "type": "service_account",
                     "project_id": os.getenv("FIREBASE_PROJECT_ID"),
-                    "private_key_id": "key123",
+                    "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID", "key123"),
                     "private_key": private_key,
                     "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
-                    "client_id": "123456789",
+                    "client_id": os.getenv("FIREBASE_CLIENT_ID", "123456789"),
                     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                     "token_uri": "https://oauth2.googleapis.com/token",
                     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
                     "client_x509_cert_url": ""
                 }
-                creds = credentials.Certificate(firebase_config)
+            # For development: try to load from credentials file
+            else:
+                creds_path = os.path.expanduser("~/Downloads/ai-face-health-analyzer-firebase-adminsdk-fbsvc-a961ac817c.json")
+                if os.path.exists(creds_path):
+                    print("Loading Firebase credentials from file (development)...")
+                    creds = credentials.Certificate(creds_path)
+                else:
+                    print("No Firebase credentials found. Using mock Firebase.")
             
-            firebase_admin.initialize_app(creds, {
-                'storageBucket': os.getenv('FIREBASE_DATABASE_URL', 'ai-face-health-analyzer.firebasestorage.app'),
-                'databaseURL': os.getenv('FIREBASE_DATABASE_URL')
+            # Initialize with credentials if found
+            if firebase_config:
+                creds = credentials.Certificate(firebase_config)
+                firebase_admin.initialize_app(creds, {
+                    'storageBucket': os.getenv('FIREBASE_STORAGE_BUCKET', 'ai-face-health-analyzer.firebasestorage.app'),
+                    'databaseURL': os.getenv('FIREBASE_DATABASE_URL', 'https://ai-face-health-analyzer.firebaseio.com')
+                })
+            elif os.path.exists(os.path.expanduser("~/Downloads/ai-face-health-analyzer-firebase-adminsdk-fbsvc-a961ac817c.json")):
+                creds_path = os.path.expanduser("~/Downloads/ai-face-health-analyzer-firebase-adminsdk-fbsvc-a961ac817c.json")
+                creds = credentials.Certificate(creds_path)
+                firebase_admin.initialize_app(creds, {
+                    'storageBucket': 'ai-face-health-analyzer.firebasestorage.app',
+                    'databaseURL': 'https://ai-face-health-analyzer.firebaseio.com'
+                })
+            else:
+                print("Firebase not initialized - using mock mode")
+                return  # Skip Firebase initialization
+        
+        _db = firestore.client()
+        _auth = auth
+        _storage_bucket = storage.bucket()
+        print("✅ Firebase initialized successfully")
+    except Exception as e:
+        print(f"⚠️ Firebase initialization warning: {e}")
             })
         
         _db = firestore.client()
