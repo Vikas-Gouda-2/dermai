@@ -73,14 +73,6 @@ def init_firebase():
         print("✅ Firebase initialized successfully")
     except Exception as e:
         print(f"⚠️ Firebase initialization warning: {e}")
-            })
-        
-        _db = firestore.client()
-        _auth = auth
-        _storage_bucket = storage.bucket()
-        print("✅ Firebase initialized successfully")
-    except Exception as e:
-        print(f"⚠️ Firebase initialization warning: {e}")
         print("Using mock Firebase (data not persisted)")
 
 
