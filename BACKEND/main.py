@@ -27,7 +27,9 @@ allowed_origins = [
     "https://dermai.vercel.app",
     "https://dermai-production.vercel.app",
     "https://frontend-7n7kagqya-vikas-gouda-2s-projects.vercel.app",
-    "https://frontend-vikas-gouda-2s-projects.vercel.app"
+    "https://frontend-vikas-gouda-2s-projects.vercel.app",
+    "https://frontend-1okae27rm-vikas-gouda-2s-projects.vercel.app",
+    "https://frontend-nu-ochre-81.vercel.app"
 ]
 
 # Add any additional origins from environment
