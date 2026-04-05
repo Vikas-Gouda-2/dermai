@@ -26,6 +26,8 @@ allowed_origins = [
     "http://localhost:8000",
     "https://dermai.vercel.app",
     "https://dermai-production.vercel.app",
+    "https://frontend-7n7kagqya-vikas-gouda-2s-projects.vercel.app",
+    "https://frontend-vikas-gouda-2s-projects.vercel.app"
 ]
 
 # Add any additional origins from environment
