@@ -28,7 +28,7 @@ export function AppProvider({ children }) {
   // Create axios instance with authorization
   const apiClient = useCallback(() => {
     const instance = axios.create({
-      baseURL: API_URL,
+      baseURL: `${API_URL}/api`,
       timeout: parseInt(import.meta.env.VITE_API_TIMEOUT || '30000')
     })
     

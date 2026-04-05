@@ -47,7 +47,8 @@ export default function AnalysingPage() {
 
       // Call the API
       try {
-        const response = await axios.post('/api/analyse', {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+        const response = await axios.post(`${API_URL}/api/analyse`, {
           image: imageData || 'data:image/jpeg;base64,mockdata',
           timestamp: Date.now()
         })

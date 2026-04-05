@@ -187,7 +187,8 @@ export default function RecommendationsPage() {
         .map(c => c.key)
         .join(',')
 
-      const response = await axios.get(`/api/recommendations?conditions=${topConditions}&limit=20`)
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const response = await axios.get(`${API_URL}/api/recommendations?conditions=${topConditions}&limit=20`)
       setProducts(response.data.products)
       setContextRecs(response.data.products)
     } catch (err) {
